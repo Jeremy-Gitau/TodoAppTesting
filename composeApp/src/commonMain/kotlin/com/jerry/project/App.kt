@@ -10,8 +10,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import cafe.adriel.voyager.navigator.Navigator
+import com.jerry.project.ui.TodoScreen
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.core.context.startKoin
+import org.koin.dsl.module
 
 import todoapptesting.composeapp.generated.resources.Res
 import todoapptesting.composeapp.generated.resources.compose_multiplatform
@@ -19,18 +23,30 @@ import todoapptesting.composeapp.generated.resources.compose_multiplatform
 @Composable
 @Preview
 fun App() {
+
+    startKoin {
+        modules(appModule)
+    }
+
     MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
+//        Navigator(TodoScreen)
+
+        GreetingCompose()
+    }
+}
+
+@Composable
+fun GreetingCompose(){
+    var showContent by remember { mutableStateOf(false) }
+    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Button(onClick = { showContent = !showContent }) {
+            Text("Click me!")
+        }
+        AnimatedVisibility(showContent) {
+            val greeting = remember { Greeting().greet() }
+            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(painterResource(Res.drawable.compose_multiplatform), null)
+                Text("Compose: $greeting")
             }
         }
     }
